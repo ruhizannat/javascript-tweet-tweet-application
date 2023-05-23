@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Tweet-Tweet Project</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+			integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div class="container">
+			<h1 class="title-heading">TWEET-TWEET</h1>
+
+			<div id="tweet">
+				<input
+					type="text"
+					name="search"
+					placeholder="Type something to search ..."
+					class="search-input"
+				/>
+			</div>
+			<span class="msg"></span>
+
+			<div class="row">
+				<div class="col-md-6 comment">
+					<form>
+						<textarea
+							placeholder="Type  your word here..."
+							class="text-element"
+						></textarea>
+						<p class="box">
+							<span class="limit">0 </span>
+							<span class="limit-number">0 </span>
+						</p>
+						<button type="submit" class="submit ms-5">Submit</button>
+					</form>
+				</div>
+
+				<div class="col-md-6 list-style collection">
+					<ol type="1" class="text">
+						<li>
+							Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro
+							fuga sunt deleniti, eius temporibus dolore ducimus nulla, eos
+							nesciunt enim culpa? Tempora cum saepe unde rem odio, impedit
+							pariatur alias!
+						</li>
+
+						<div class="mt-2">
+							<div class="row d-flex justify-content-between">
+								<div class="col-md-6">
+									<span class="date-style">01 Nov 23 at 11:00pm</span>
+								</div>
+								<div class="col-md-6">
+									<i class="fa-regular fa-pen-to-square text-info ms-4"></i>
+									<i class="fa-sharp fa-solid fa-trash text-danger ms-3"></i>
+								</div>
+							</div>
+						</div>
+					</ol>
+				</div>
+			</div>
+		</div>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+			crossorigin="anonymous"
+		></script>
+		<script src="main.js"></script>
+	</body>
+</html>
