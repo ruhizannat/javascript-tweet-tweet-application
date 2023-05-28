@@ -7,13 +7,17 @@ const limitNumberElm = document.querySelector('.limit-number');
 const btnElm = document.querySelector('.submit');
 const dateElm = document.querySelector('.date-style');
 const msgElm = document.querySelector('.msg');
+const collectionElm = document.querySelector('.collection');
 
 let count;
-const num1 = 250;
-const num2 = 0;
+let limitNum = 250;
+const limit = 0;
+
+const tweets = [];
 
 const wordCount = (text) => {
 	const arrayOfWords = text.split(' ');
+
 	count = 0;
 	for (let word of arrayOfWords) {
 		if (/[a-zA-Z0-9]/.test(word)) {
@@ -23,14 +27,22 @@ const wordCount = (text) => {
 
 	return count;
 };
+
+const generateDate = () => {
+	const date = new Date();
+
+	const time = dateFns.format(new Date(date), 'D MMM, YY h:mm a');
+	return time;
+};
+generateDate();
 const setWordCount = (count) => {
 	// DOM update
 	limitElm.textContent = count;
 };
 
 const setInitialDOM = () => {
-	limitNumberElm.textContent = num1;
-	limitElm.textContent = num2;
+	limitNumberElm.textContent = limitNum;
+	limitElm.textContent = limit;
 };
 
 const receiveInput = () => {
@@ -56,20 +68,53 @@ const validatedInput = (inputValue) => {
 		isValid = false;
 		showMessage('please provide necessary info', 'danger');
 	}
-	if (inputValue.length > num1 && count > num1) {
+	if (inputValue.length > limitNum && count > limitNum) {
 		isValid = false;
 		showMessage(
-			`You cannot put more than ${num1} words in this text area.`,
+			`You cannot put more than ${limitNum} words in this text area.`,
 			'danger'
 		);
 	}
+
 	return isValid;
 };
 
 const resetInputs = () => {
 	textElement.value = '';
-	limitElm.textContent = num2;
-	limitNumberElm.textContent = num1;
+	limitElm.textContent = limit;
+	limitNumberElm.textContent = limitNum;
+};
+
+const addTweet = (inputValue) => {
+	const tweet = {
+		serialNumber: tweets.length + 1 + '.',
+		date: generateDate(),
+		id: tweets.length + 1,
+		textInput: inputValue,
+	};
+
+	// memory data store
+	tweets.push(tweet);
+	return tweet;
+};
+const showTweetToUI = (tweetInfo) => {
+	const { serialNumber, id, textInput, date } = tweetInfo;
+	const elm = `<li class='mb-3'>
+	 <span class='serial-number'>${serialNumber}</span> <p class='text-input' data-tweetId='${id}'>${textInput}</p>
+	<div class="mt-2">
+		<div class="row d-flex justify-content-between">
+			<div class="col-md-6">
+				<span class="date-style">${date}</span>
+			</div>
+			<div class="col-md-6">
+				<i class="fa-regular fa-pen-to-square text-info ms-4"></i>
+				<i class="fa-sharp fa-solid fa-trash text-danger ms-3"></i>
+			</div>
+		</div>
+	</div>
+</li>`;
+	collectionElm.insertAdjacentHTML('afterbegin', elm);
+	showMessage('New Tweet Added Successfully', 'success');
 };
 formElm.addEventListener('submit', (e) => {
 	//prevent browser reloading
@@ -83,6 +128,12 @@ formElm.addEventListener('submit', (e) => {
 
 	// reset the inputs
 	resetInputs();
+
+	//Add tweet to data store
+	const tweet = addTweet(inputValue);
+
+	// add tweet to UI
+	showTweetToUI(tweet);
 	console.log(inputValue);
 });
 
@@ -92,4 +143,5 @@ textElement.addEventListener('input', (e) => {
 	// get word count
 	setWordCount(wordCount(text));
 });
+
 setInitialDOM();

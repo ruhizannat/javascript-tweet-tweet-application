@@ -83,6 +83,7 @@ textarea {
 }
 .text {
 	background: #ffffff;
+	list-style: none !important;
 }
 .date-style {
 	background-color: rgba(238, 130, 238, 0.214);
@@ -94,24 +95,32 @@ textarea {
 	border-radius: 5px;
 }
 .box {
-	border: 1px solid rgba(0, 0, 0, 0.16);
+	border: 1px solid #ffffff;
 	display: inline-table;
 	text-align: center;
 	border-radius: 1px;
 	font-size: 12px;
-	box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+	box-shadow: #e9c3f8 0px 10px 36px 0px, #ffffff 0px 0px 0px 1px;
 	color: #000;
 	list-style: none;
 	width: 60px;
 	padding: 2px 2px;
+	left: 0;
 }
 .limit-number {
 	padding-left: 5px;
 }
 .limit {
-	border-right: 1px solid rgba(0, 0, 0, 0.16);
+	border-right: 1px solid #ffffff;
 	padding-right: 5px;
 }
 .avoid-clicks {
-	border:1px solid red;
-  }
+	pointer-events: none;
+}
+.text-input{
+	display: inline;
+}
+.serial-number{
+	font-weight: 500;
+	color: #000;
+}
