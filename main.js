@@ -102,7 +102,7 @@ const showTweetToUI = (tweetInfo) => {
 	const { serialNumber, id, textInput, date } = tweetInfo;
 	const elm = `<li class='mb-3' data-tweetId='${id}'>
 	
-	  <p class='text-input '> <span class='me-2'>${serialNumber}</span>${textInput}</p>
+	  <p class='text-input '> <span class='me-2 serial-number'>${serialNumber}</span>${textInput}</p>
 	
 		<div>
 				<span class="date-style">${date}</span>
@@ -127,6 +127,18 @@ const removeTweetFromUI = (id) => {
 	document.querySelector(`[data-tweetId='${id}']`).remove();
 	showMessage('tweet deleted successfully', 'success');
 };
+const addTweetToLocalStorage = (tweet) => {
+	let tweets;
+	if (localStorage.getItem('storeTweets')) {
+		tweets = JSON.parse(localStorage.getItem('storeTweets'));
+		tweets.push(tweet);
+		localStorage.setItem('storeTweets', JSON.stringify(tweets));
+	} else {
+		tweets = [];
+		tweets.push(tweet);
+		localStorage.setItem('storeTweets', JSON.stringify(tweets));
+	}
+};
 formElm.addEventListener('submit', (e) => {
 	//prevent browser reloading
 	e.preventDefault();
@@ -142,6 +154,9 @@ formElm.addEventListener('submit', (e) => {
 
 	//Add tweet to data store
 	const tweet = addTweet(inputValue);
+
+	//add tweet to localStorage
+	addTweetToLocalStorage(tweet);
 
 	// add tweet to UI
 	showTweetToUI(tweet);
