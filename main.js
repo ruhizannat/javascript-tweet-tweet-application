@@ -126,8 +126,11 @@ const getTweetId = (e) => {
 
 	return id;
 };
+const updateAfterRemove = (tweets, id) => {
+	return tweets.filter((tweet) => tweet.id !== id);
+};
 const removeTweetFromDataMemory = (id) => {
-	tweets = tweets.filter((tweet) => tweet.id !== id);
+	tweets = updateAfterRemove(tweets, id);
 };
 const removeTweetFromUI = (id) => {
 	document.querySelector(`[data-tweetId='${id}']`).remove();
@@ -167,6 +170,12 @@ const showAllTweetsToUI = (tweets) => {
 	});
 	collectionElm.insertAdjacentHTML('afterbegin', liElms);
 };
+const removeTweetFromStorage = (id) => {
+	let tweets;
+	tweets = JSON.parse(localStorage.getItem('storeTweets'));
+	tweets = updateAfterRemove(tweets, id);
+	localStorage.setItem('storeTweets', JSON.stringify(tweets));
+};
 formElm.addEventListener('submit', (e) => {
 	//prevent browser reloading
 	e.preventDefault();
@@ -196,6 +205,9 @@ collectionElm.addEventListener('click', (e) => {
 		const id = getTweetId(e);
 		//tweet remove from data store
 		removeTweetFromDataMemory(id);
+
+		//remove tweet to localStorage
+		removeTweetFromStorage(id);
 		//tweet remove from UI
 		removeTweetFromUI(id);
 	}
