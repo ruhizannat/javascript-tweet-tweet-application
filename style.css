@@ -117,10 +117,12 @@ textarea {
 .avoid-clicks {
 	pointer-events: none;
 }
-.text-input{
+.text-input {
 	display: inline;
 }
-.serial-number{
+/* .serial-number {
 	font-weight: 500;
 	color: #000;
-}
+
+	font-size: 15px;
+} */

@@ -13,7 +13,7 @@ let count;
 let limitNum = 250;
 const limit = 0;
 
-const tweets = [];
+let tweets = [];
 
 const wordCount = (text) => {
 	const arrayOfWords = text.split(' ');
@@ -94,27 +94,38 @@ const addTweet = (inputValue) => {
 	};
 
 	// memory data store
+
 	tweets.push(tweet);
 	return tweet;
 };
 const showTweetToUI = (tweetInfo) => {
 	const { serialNumber, id, textInput, date } = tweetInfo;
-	const elm = `<li class='mb-3'>
-	 <span class='serial-number'>${serialNumber}</span> <p class='text-input' data-tweetId='${id}'>${textInput}</p>
-	<div class="mt-2">
-		<div class="row d-flex justify-content-between">
-			<div class="col-md-6">
+	const elm = `<li class='mb-3' data-tweetId='${id}'>
+	
+	  <p class='text-input '> <span class='me-2'>${serialNumber}</span>${textInput}</p>
+	
+		<div>
 				<span class="date-style">${date}</span>
-			</div>
-			<div class="col-md-6">
-				<i class="fa-regular fa-pen-to-square text-info ms-4"></i>
-				<i class="fa-sharp fa-solid fa-trash text-danger ms-3"></i>
-			</div>
+				<i class="fa-regular fa-pen-to-square edit-tweet text-info ms-4"></i>
+				<i class="fa-sharp fa-solid fa-trash delete-tweet text-danger ms-3"></i>
 		</div>
-	</div>
+	
 </li>`;
 	collectionElm.insertAdjacentHTML('afterbegin', elm);
 	showMessage('New Tweet Added Successfully', 'success');
+};
+const getTweetId = (e) => {
+	const liElm = e.target.parentElement.parentElement;
+	const id = +liElm.getAttribute('data-tweetId');
+
+	return id;
+};
+const removeTweetFromDataMemory = (id) => {
+	tweets = tweets.filter((tweet) => tweet.id !== id);
+};
+const removeTweetFromUI = (id) => {
+	document.querySelector(`[data-tweetId='${id}']`).remove();
+	showMessage('tweet deleted successfully', 'success');
 };
 formElm.addEventListener('submit', (e) => {
 	//prevent browser reloading
@@ -135,6 +146,16 @@ formElm.addEventListener('submit', (e) => {
 	// add tweet to UI
 	showTweetToUI(tweet);
 	console.log(inputValue);
+});
+collectionElm.addEventListener('click', (e) => {
+	if (e.target.classList.contains('delete-tweet')) {
+		//get the tweet id
+		const id = getTweetId(e);
+		//tweet remove from data store
+		removeTweetFromDataMemory(id);
+		//tweet remove from UI
+		removeTweetFromUI(id);
+	}
 });
 
 textElement.addEventListener('input', (e) => {
