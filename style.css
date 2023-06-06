@@ -126,5 +126,16 @@ textarea {
 
 	font-size: 15px;
 	font-family: 'Poppins', sans-serif;
-	
+}
+.show-text {
+	margin: 40px auto;
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 70px;
+	font-weight: bold;
+	color: #ffffff;
+	text-align: center;
+	letter-spacing: 5px;
+	text-shadow: 0 2px 1px violet, -1px 3px 1px violet, -2px 5px 1px violet;
+	list-style: none;
+	text-transform: uppercase;
 }

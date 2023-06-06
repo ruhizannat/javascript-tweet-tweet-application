@@ -13,7 +13,9 @@ let count;
 let limitNum = 250;
 const limit = 0;
 
-let tweets = [];
+let tweets = localStorage.getItem('storeTweets')
+	? JSON.parse(localStorage.getItem('storeTweets'))
+	: [];
 
 const wordCount = (text) => {
 	const arrayOfWords = text.split(' ');
@@ -99,6 +101,10 @@ const addTweet = (inputValue) => {
 	return tweet;
 };
 const showTweetToUI = (tweetInfo) => {
+	const notFoundElm = document.querySelector('.not-found');
+	if (notFoundElm) {
+		notFoundElm.remove();
+	}
 	const { serialNumber, id, textInput, date } = tweetInfo;
 	const elm = `<li class='mb-3' data-tweetId='${id}'>
 	
@@ -138,6 +144,28 @@ const addTweetToLocalStorage = (tweet) => {
 		tweets.push(tweet);
 		localStorage.setItem('storeTweets', JSON.stringify(tweets));
 	}
+};
+const showAllTweetsToUI = (tweets) => {
+	let liElms;
+	liElms =
+		tweets.length === 0
+			? '<li class="show-text not-found">no tweets to show</li>'
+			: '';
+
+	tweets.forEach((tweet) => {
+		liElms += `<li class='mb-3' data-tweetId='${tweet.id}'>
+	
+		<p class='text-input '> <span class='me-2 serial-number'>${tweet.serialNumber}</span>${tweet.textInput}</p>
+	  
+		  <div>
+				  <span class="date-style">${tweet.date}</span>
+				  <i class="fa-regular fa-pen-to-square edit-tweet text-info ms-4"></i>
+				  <i class="fa-sharp fa-solid fa-trash delete-tweet text-danger ms-3"></i>
+		  </div>
+	  
+  </li>`;
+	});
+	collectionElm.insertAdjacentHTML('afterbegin', liElms);
 };
 formElm.addEventListener('submit', (e) => {
 	//prevent browser reloading
@@ -181,3 +209,5 @@ textElement.addEventListener('input', (e) => {
 });
 
 setInitialDOM();
+
+document.addEventListener('DOMContentLoaded', () => showAllTweetsToUI(tweets));
