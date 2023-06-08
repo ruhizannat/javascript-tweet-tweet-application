@@ -139,3 +139,6 @@ textarea {
 	list-style: none;
 	text-transform: uppercase;
 }
+.warning {
+	background-color: yellowgreen;
+}

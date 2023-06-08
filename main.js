@@ -176,6 +176,16 @@ const removeTweetFromStorage = (id) => {
 	tweets = updateAfterRemove(tweets, id);
 	localStorage.setItem('storeTweets', JSON.stringify(tweets));
 };
+const findTweet = (id) => {
+	return tweets.find((tweet) => tweet.id === id);
+};
+const populateEditState = (tweet) => {
+	textElement.value = tweet.textInput;
+
+	//change button element
+	btnElm.textContent = 'Update';
+	btnElm.classList.add('warning');
+};
 formElm.addEventListener('submit', (e) => {
 	//prevent browser reloading
 	e.preventDefault();
@@ -200,9 +210,9 @@ formElm.addEventListener('submit', (e) => {
 	console.log(inputValue);
 });
 collectionElm.addEventListener('click', (e) => {
+	const id = getTweetId(e);
 	if (e.target.classList.contains('delete-tweet')) {
 		//get the tweet id
-		const id = getTweetId(e);
 		//tweet remove from data store
 		removeTweetFromDataMemory(id);
 
@@ -210,6 +220,11 @@ collectionElm.addEventListener('click', (e) => {
 		removeTweetFromStorage(id);
 		//tweet remove from UI
 		removeTweetFromUI(id);
+	} else if (e.target.classList.contains('edit-tweet')) {
+		//find tweet
+		const foundTweet = findTweet(id);
+		//populating form in Edit State
+		populateEditState(foundTweet);
 	}
 });
 
