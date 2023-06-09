@@ -149,6 +149,8 @@ const addTweetToLocalStorage = (tweet) => {
 	}
 };
 const showAllTweetsToUI = (tweets) => {
+	// clear existing content form collection element / UL
+	collectionElm.textContent = '';
 	let liElms;
 	liElms =
 		tweets.length === 0
@@ -185,7 +187,30 @@ const populateEditState = (tweet) => {
 	//change button element
 	btnElm.textContent = 'Update';
 	btnElm.classList.add('warning');
+	btnElm.classList.add('update-btn');
+	btnElm.setAttribute('data-id', tweet.id);
 };
+const updateTweet = (receiveTweet) => {
+	const updatedTweet = tweets.map((tweet) => {
+		if (tweet.id === receiveTweet.id) {
+			return {
+				...tweet,
+				textInput: receiveTweet.inputValue,
+			};
+		} else {
+			return tweet;
+		}
+	});
+
+	return updatedTweet;
+};
+const clearEditState = () => {
+	btnElm.textContent = 'Submit';
+	btnElm.classList.remove('warning');
+	btnElm.classList.remove('update-btn');
+	btnElm.removeAttribute('[data-id]');
+};
+
 formElm.addEventListener('submit', (e) => {
 	//prevent browser reloading
 	e.preventDefault();
@@ -198,21 +223,39 @@ formElm.addEventListener('submit', (e) => {
 
 	// reset the inputs
 	resetInputs();
+	if (btnElm.classList.contains('update-btn')) {
+		const id = Number(btnElm.dataset.id);
+		const tweet = {
+			id,
+			inputValue,
+		};
 
-	//Add tweet to data store
-	const tweet = addTweet(inputValue);
+		// update tweet
+		const updatedTweet = updateTweet(tweet);
+		// memory update
+		tweets = updatedTweet;
 
-	//add tweet to localStorage
-	addTweetToLocalStorage(tweet);
+		// DOM update
+		showAllTweetsToUI(tweets);
+		//localStorage update
+		localStorage.setItem('storeTweets', JSON.stringify(tweets));
+		// clear the edit stat
+		clearEditState();
+	} else {
+		//Add tweet to data store
+		const tweet = addTweet(inputValue);
 
-	// add tweet to UI
-	showTweetToUI(tweet);
-	console.log(inputValue);
+		//add tweet to localStorage
+		addTweetToLocalStorage(tweet);
+
+		// add tweet to UI
+		showTweetToUI(tweet);
+	}
 });
 collectionElm.addEventListener('click', (e) => {
+	//get the tweet id
 	const id = getTweetId(e);
 	if (e.target.classList.contains('delete-tweet')) {
-		//get the tweet id
 		//tweet remove from data store
 		removeTweetFromDataMemory(id);
 
@@ -235,6 +278,5 @@ textElement.addEventListener('input', (e) => {
 	setWordCount(wordCount(text));
 });
 
-setInitialDOM();
-
 document.addEventListener('DOMContentLoaded', () => showAllTweetsToUI(tweets));
+setInitialDOM();
