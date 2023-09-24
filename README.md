@@ -1,6 +1,6 @@
 ## TWEET-TWEET CURD Application With JavaScript
 
-[Demo of the product list](https://ruhizannat.github.io/javascript-tweet-tweet-application/)
+[Demo of Tweet-project](https://ruhizannat.github.io/javascript-tweet-tweet-application/)
 
 
 
